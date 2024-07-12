@@ -520,49 +520,105 @@ const adjacentList = {
   
   // console.log(numIslands(grid)); // Output: 1
   
-  const grid = [
-    ['1', '1', '1', '1', '0'],
-    ['1', '1', '0', '1', '0'],
-    ['1', '1', '0', '0', '0'],
-    ['0', '0', '0', '0', '0'],
-  ];
+  // const grid = [
+  //   ["1","1","0","0","0"],
+  //   ["1","1","0","1","0"],
+  //   ["0","0","1","0","0"],
+  //   ["0","0","0","1","1"],
+  //   ["0","0","0","0","0"],
+  //   ["0","0","1","0","0"],
+  // ];
 
 
-  const numIsland = (grid)=>{
-    // Handle this if the grid is undefined or empty
-    if(!grid.length || !grid[0].length) return 0
+  // const numIsland = (grid)=>{
+  //   // Handle this if the grid is undefined or empty
+  //   if(!grid.length || !grid[0].length) return 0
 
-    // Number of rows and colums
+  //   // Number of rows and colums
+  //   const rows = grid.length;
+  //   const cols = grid[0].length;
+
+  //   // counting the number of islands
+  //   let islandCount = 0;
+
+  //   const dfs = (row, col)=>{
+  //     // Check if the rows and columns are within the boundaries or if already visited.
+  //     if(row < 0 || col < 0 || row >= rows || col >= cols || grid[row][col]==='0') return
+  //     grid[row][col] = '0';
+
+  //     // Explore all the connected islands
+  //     dfs(row+1, col); // Up
+  //     dfs(row-1, col); // Down
+  //     dfs(row, col+1); // Right 
+  //     dfs(row, col-1); // Left
+
+  //   }
+
+
+  //   for(let row = 0; row < rows; row++){
+  //     for(let col = 0; col < cols; col++){
+  //       if(grid[row][col]==='1'){
+  //         dfs(row, col);
+  //         islandCount++
+  //       }
+  //     }
+  //   }
+
+  //   return islandCount;
+  // }
+
+  // console.log(numIsland(grid));
+
+
+
+const grid = [
+["1","1","0","0","0"],
+["1","1","0","1","0"],
+["0","0","1","0","0"],
+["0","0","0","1","1"],
+["0","0","0","0","0"],
+["0","0","1","0","0"],
+];
+
+
+  const smallestIsland = (grid)=>{
+    //Check if the grid is empty or undefined
+    if(!grid.length || !grid[0].length) return 0;
+
     const rows = grid.length;
     const cols = grid[0].length;
 
-    // counting the number of islands
-    let islandCount = 0;
-
     const dfs = (row, col)=>{
-      // Check if the rows and columns are within the boundaries or if already visited.
-      if(row < 0 || col < 0 || row >= rows || col >= cols || grid[row][col]==='0') return
-      grid[row][col] = '0';
 
-      // Explore all the connected islands
-      dfs(row+1, col); // Up
-      dfs(row-1, col); // Down
-      dfs(row, col+1); // Right 
-      dfs(row, col-1); // Left
+      const visited = "0"
 
+      // Checking if the rows and cols are out of bounds and not visited.
+      if(col < 0 || row < 0 || row >= rows || col >= cols || grid[row][col]===visited) return 0
+      grid[row][col]='0';
+      
+
+
+      let size = 1;
+      // Exploring connected Islands
+      size += dfs(row+1, col);
+      size += dfs(row-1, col);
+      size += dfs(row, col + 1);
+      size += dfs(row, col - 1);
+      return size
     }
 
+    let minSize = Infinity;
 
     for(let row = 0; row < rows; row++){
       for(let col = 0; col < cols; col++){
         if(grid[row][col]==='1'){
-          dfs(row, col);
-          islandCount++
+          const islandSize = dfs(row, col);
+          if(minSize > islandSize) minSize = islandSize;
         }
       }
     }
 
-    return islandCount;
+    return minSize;
   }
 
-  console.log(numIsland(grid));
+  console.log(smallestIsland(grid));
