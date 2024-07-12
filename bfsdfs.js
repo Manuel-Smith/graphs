@@ -478,51 +478,91 @@ const adjacentList = {
 
 // }
 
-function numIslands(grid) {
-    // Handle empty or undefined grid
-    if (!grid || !grid.length) return 0;
+// function numIslands(grid) {
+//     // Handle empty or undefined grid
+//     if (!grid || !grid.length) return 0;
   
-    const rows = grid.length;
-    const cols = grid[0].length;
-    let islandCount = 0;
+//     const rows = grid.length;
+//     const cols = grid[0].length;
+//     let islandCount = 0;
   
-    const dfs = (row, col) => {
-      // Check if cell is within grid boundaries and unvisited land
-      if (row < 0 || col < 0 || row >= rows || col >= cols || grid[row][col] === '0') {
-        return;
-      }
+//     const dfs = (row, col) => {
+//       // Check if cell is within grid boundaries and unvisited land
+//       if (row < 0 || col < 0 || row >= rows || col >= cols || grid[row][col] === '0') {
+//         return;
+//       }
   
-      // Mark cell as visited
-      grid[row][col] = '0';
+//       // Mark cell as visited
+//       grid[row][col] = '0';
   
-      // Explore connected land in all 4 directions (DFS recursively)
-      dfs(row + 1, col); // Down
-      dfs(row - 1, col); // Up
-      dfs(row, col + 1); // Right
-      dfs(row, col - 1); // Left
-    }
+//       // Explore connected land in all 4 directions (DFS recursively)
+//       dfs(row + 1, col); // Down
+//       dfs(row - 1, col); // Up
+//       dfs(row, col + 1); // Right
+//       dfs(row, col - 1); // Left
+//     }
   
-    // Iterate through the grid
-    for (let row = 0; row < rows; row++) {
-      for (let col = 0; col < cols; col++) {
-        if (grid[row][col] === '1') {
-          // Encountered unvisited land, start DFS and increment island count
-          dfs(row, col);
-          islandCount++;
-        }
-      }
-    }
+//     // Iterate through the grid
+//     for (let row = 0; row < rows; row++) {
+//       for (let col = 0; col < cols; col++) {
+//         if (grid[row][col] === '1') {
+//           // Encountered unvisited land, start DFS and increment island count
+//           dfs(row, col);
+//           islandCount++;
+//         }
+//       }
+//     }
   
-    return islandCount;
-  }
+//     return islandCount;
+//   }
   
   // Example usage
+  
+  // console.log(numIslands(grid)); // Output: 1
+  
   const grid = [
     ['1', '1', '1', '1', '0'],
     ['1', '1', '0', '1', '0'],
     ['1', '1', '0', '0', '0'],
     ['0', '0', '0', '0', '0'],
   ];
-  
-  console.log(numIslands(grid)); // Output: 1
-  
+
+
+  const numIsland = (grid)=>{
+    // Handle this if the grid is undefined or empty
+    if(!grid.length || !grid[0].length) return 0
+
+    // Number of rows and colums
+    const rows = grid.length;
+    const cols = grid[0].length;
+
+    // counting the number of islands
+    let islandCount = 0;
+
+    const dfs = (row, col)=>{
+      // Check if the rows and columns are within the boundaries or if already visited.
+      if(row < 0 || col < 0 || row >= rows || col >= cols || grid[row][col]==='0') return
+      grid[row][col] = '0';
+
+      // Explore all the connected islands
+      dfs(row+1, col); // Up
+      dfs(row-1, col); // Down
+      dfs(row, col+1); // Right 
+      dfs(row, col-1); // Left
+
+    }
+
+
+    for(let row = 0; row < rows; row++){
+      for(let col = 0; col < cols; col++){
+        if(grid[row][col]==='1'){
+          dfs(row, col);
+          islandCount++
+        }
+      }
+    }
+
+    return islandCount;
+  }
+
+  console.log(numIsland(grid));
